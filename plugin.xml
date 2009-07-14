@@ -1,0 +1,21 @@
+<plugin name='plugrepo' version='0.1' grailsVersion='1.1.1 &gt; *'>
+  <author>Your name</author>
+  <title>Plugin summary/headline</title>
+  <description>\
+Brief description of the plugin.
+</description>
+  <documentation>http://grails.org/Plugrepo+Plugin</documentation>
+  <resources>
+    <resource>DataSource</resource>
+    <resource>PlugRepoUrlMappings</resource>
+    <resource>UrlMappings</resource>
+    <resource>net.jetztgrad.plugrepo.PluginAdminController</resource>
+    <resource>net.jetztgrad.plugrepo.PluginController</resource>
+    <resource>net.jetztgrad.plugrepo.PluginVersionController</resource>
+    <resource>net.jetztgrad.plugrepo.Plugin</resource>
+    <resource>net.jetztgrad.plugrepo.PluginVersion</resource>
+    <resource>net.jetztgrad.plugrepo.Repository</resource>
+    <resource>net.jetztgrad.plugrepo.StorageService</resource>
+  </resources>
+  <dependencies />
+</plugin>
