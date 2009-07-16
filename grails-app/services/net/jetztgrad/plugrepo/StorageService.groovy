@@ -4,6 +4,9 @@ import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.OutputStream;
 
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipEntry;
+
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
 
@@ -99,6 +102,41 @@ class StorageService {
 		}
 		
 		return false
+	}
+	
+	def readPluginXml(String token) {
+		def pluginXml
+		
+		InputStream inp
+		try {
+			// read plugin .zip
+			inp = readFile(token)
+			if (inp) {
+				ZipInputStream zin = new ZipInputStream(inp)
+
+				// find plugin.xml
+				ZipEntry entry
+				while ((entry = zin.getNextEntry())) {
+					if (entry.name == 'plugin.xml') {
+						// TODO read and parse plugin.xml
+						pluginXml = new XmlSlurper().parse(zin)
+						break;
+					}
+				}
+			}
+		}
+		finally {
+			if (inp) {
+				try {
+					inp.close()
+				}
+				finally {
+					inp = null
+				}
+			}
+		}
+		
+		return pluginXml
 	}
 	
 	String getFileName(String token) {

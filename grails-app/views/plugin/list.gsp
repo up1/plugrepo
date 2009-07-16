@@ -1,5 +1,4 @@
 
-<%@ page import="net.jetztgrad.plugrepo.Plugin" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -20,32 +19,34 @@
                 <table>
                     <thead>
                         <tr>
-                        
-                   	        <g:sortableColumn property="id" title="Id" />
+                   	        <g:sortableColumn property="name" title="Name" />
                         
                    	        <g:sortableColumn property="author" title="Author" />
                         
-                   	        <th>Default Version</th>
+							<g:sortableColumn property="defaultVersion" title="Default" />
+
+							<g:sortableColumn property="pluginVersion" title="Version" />
+							
+							<g:sortableColumn property="grailsVersion" title="Grails Version" />
                    	    
                    	        <g:sortableColumn property="description" title="Description" />
-                        
-                   	        <g:sortableColumn property="name" title="Name" />
-                        
                         </tr>
                     </thead>
                     <tbody>
                     <g:each in="${pluginInstanceList}" status="i" var="pluginInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link action="show" id="${pluginInstance.id}">${fieldValue(bean:pluginInstance, field:'id')}</g:link></td>
-                        
+                            <td><g:link action="download" params="[plugin:fieldValue(bean:pluginInstance, field:'name'), version:fieldValue(bean:pluginInstance, field:'pluginVersion')]">${fieldValue(bean:pluginInstance, field:'name')}</g:link></td>
+
                             <td>${fieldValue(bean:pluginInstance, field:'author')}</td>
                         
                             <td>${fieldValue(bean:pluginInstance, field:'defaultVersion')}</td>
+
+							<td>${fieldValue(bean:pluginInstance, field:'pluginVersion')}</td>
+							
+							<td>${fieldValue(bean:pluginInstance, field:'grailsVersion')}</td>
                         
                             <td>${fieldValue(bean:pluginInstance, field:'description')}</td>
-                        
-                            <td>${fieldValue(bean:pluginInstance, field:'name')}</td>
                         
                         </tr>
                     </g:each>

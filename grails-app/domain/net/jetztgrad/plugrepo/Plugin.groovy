@@ -4,12 +4,15 @@ class Plugin {
 	String name
 	String description
 	String author
-	String defaultVersion
-	
-	static hasMany = [ versions : PluginVersion ]
+	String pluginVersion
+	String grailsVersion
+	String fileToken
+	Repository repository
+	Boolean defaultVersion
 	
     static constraints = {
 		description(nullable: true)
 		author(nullable: true)
+		repository(nullable: true)
     }
 }

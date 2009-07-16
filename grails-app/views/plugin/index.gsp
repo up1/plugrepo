@@ -1,5 +1,4 @@
 
-<%@ page import="net.jetztgrad.plugrepo.Plugin" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -23,8 +22,9 @@
 			<h2>Upload Plugin</h2>
 			<div class="list">
 				<g:uploadForm action="upload">
-					<input type="file" name="pluginFile"/>
-					<input type="submit" value="Upload"/>
+					<input type="file" name="pluginFile"/><br/>
+					<input type="checkbox" name="updateIfExists"/> Update if exists<br/>
+					<input type="submit" value="Upload"/><br/>
 				</g:uploadForm>
             </div>
         </div>

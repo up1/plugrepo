@@ -3,11 +3,7 @@ package net.jetztgrad.plugrepo
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipEntry;
-
 import net.jetztgrad.plugrepo.Plugin;
-import net.jetztgrad.plugrepo.PluginVersion;
 import net.jetztgrad.plugrepo.Repository;
 
 class PluginController {
@@ -21,7 +17,7 @@ class PluginController {
 		def plugins = Plugin.list();
 		def pluginInstanceTotal = Plugin.count();
 		
-		[plugins:plugins, pluginInstanceTotal: pluginInstanceTotal]
+		[pluginInstanceList:plugins, pluginInstanceTotal: pluginInstanceTotal]
 	}
 
 	def metadata = {
@@ -31,27 +27,22 @@ class PluginController {
 	}
 	
 	def download = {
-		Plugin plugin = Plugin.getByName(params.plugin)
-		
-		if (plugin == null) {
-			// plugin not found
-			response.sendError 404
-			return
-		}
-
-		PluginVersion plugVersion = plugin.defaultVersion
+		Plugin plugin
 		
 		if (params.version) {
-			plugVersion = PluginVersion.findByVersionString(params.version)
+			plugin = Plugin.findByNameAndPluginVersion(params.plugin, params.version)
+		}
+		else {
+			plugin = Plugin.findByNameAndDefaultVersion(params.plugin, true)
 		}
 		
-		if (plugVersion == null) {
+		if (plugin == null) {
 			// plugin version not found
 			response.sendError 404
 			return
 		}
 
-		String token = plugVersion.fileToken;
+		String token = plugin.fileToken;
 		InputStream inp = storageService.readFile(token)
 		if (inp == null) {
 			// file not found
@@ -92,7 +83,6 @@ class PluginController {
 			error = "Invalid file!"
 		}
 		else if (!isZip(pluginFile)) {
-			println pluginFile.contentType
 			error = "Invalid file format!<br/> Expecting .zip file containing a Grails plugin."
 		}
 		else if (pluginFile.empty) {
@@ -114,50 +104,24 @@ class PluginController {
 		}
 		
 		// inspect plugin xml
-		String pluginName
-		String versionString
-		InputStream inp
-		try {
-			// read plugin .zip
-			inp = storageService.readFile(token)
-			ZipInputStream zin = new ZipInputStream(inp)
-
-			pluginName = fileName
-			versionString = "1.0"
-			
-			// find plugin.xml
-			ZipEntry entry
-			while ((entry = zin.getNextEntry())) {
-				if (entry.name == 'plugin.xml') {
-					// TODO read and parse plugin.xml
-					break;
-				}
-			}
-		}
-		finally {
-			if (inp) {
-				try {
-					inp.close()
-				}
-				finally {
-					inp = null
-				}
-			}
-		}
+		def pluginXml = storageService.readPluginXml(token)
+		if (pluginXml) {
+			String pluginName = pluginXml.@name
+			String pluginVersion = pluginXml.@version
+			String grailsVersion = pluginXml.@grailsVersion
+			String author = pluginXml.author
+			String description = pluginXml.description
 		
-		if (pluginName && versionString) {
-			Plugin plugin = Plugin.findByName(pluginName)
+			Plugin plugin = Plugin.findByNameAndPluginVersion(pluginName, pluginVersion)
 			if (plugin == null) {
-				plugin = new Plugin(name: pluginName)
+				def count = Plugin.findAllByName(pluginName)
+				boolean defaultVersion = false
+				if (count == 0) {
+					defaultVersion = true
+				}
+				plugin = new Plugin(name: pluginName, pluginVersion: pluginVersion, grailsVersion: grailsVersion, fileToken: token, defaultVersion:defaultVersion, author:author, description:description)
 			}
 
-			// create new pluginVersion
-			// TODO check for duplicates
-			PluginVersion pluginVersion = new PluginVersion(versionString: versionString, defaultVersion: true, fileToken: token)
-			plugin.addToVersions(pluginVersion)
-			if (!plugin.defaultVersion) {
-				plugin.defaultVersion = versionString
-			}
 			if (plugin.save(flush:true)) {			
 				flash.message = "successfully uploaded plugin"
 			}
