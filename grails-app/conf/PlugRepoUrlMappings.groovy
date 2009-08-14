@@ -1,8 +1,14 @@
 class PlugRepoUrlMappings {
 	static mappings = {
-		"/plugin/.plugin-meta/plugins-list.xml" {
+		"/local/.plugin-meta/plugins-list.xml" {
 			controller = "plugin"
 			action = "metadata"
+			includeUpstream = false
+		}
+		"/proxied/.plugin-meta/plugins-list.xml" {
+			controller = "plugin"
+			action = "metadata"
+			includeUpstream = true
 		}
 		"/plugin/download/$plugin/$version?" {
 			controller = "plugin"

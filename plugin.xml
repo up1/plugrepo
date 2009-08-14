@@ -6,11 +6,15 @@ Brief description of the plugin.
 </description>
   <documentation>http://grails.org/Plugrepo+Plugin</documentation>
   <resources>
+    <resource>BootStrap</resource>
+    <resource>Config</resource>
     <resource>DataSource</resource>
     <resource>PlugRepoUrlMappings</resource>
+    <resource>spring.resources</resource>
     <resource>UrlMappings</resource>
     <resource>net.jetztgrad.plugrepo.PluginAdminController</resource>
     <resource>net.jetztgrad.plugrepo.PluginController</resource>
+    <resource>net.jetztgrad.plugrepo.RepositoryController</resource>
     <resource>net.jetztgrad.plugrepo.Plugin</resource>
     <resource>net.jetztgrad.plugrepo.Repository</resource>
     <resource>net.jetztgrad.plugrepo.StorageService</resource>

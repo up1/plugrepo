@@ -3,14 +3,24 @@ package net.jetztgrad.plugrepo
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.compass.core.engine.SearchEngineQueryParseException
+
 import net.jetztgrad.plugrepo.Plugin;
 import net.jetztgrad.plugrepo.Repository;
 
 class PluginController {
 	
+	def searchableService
 	def storageService
 
     def index = {
+	}
+	
+	def browse = {
+		def plugins = Plugin.list();
+		def pluginInstanceTotal = Plugin.count();
+		
+		[pluginInstanceList:plugins, pluginInstanceTotal: pluginInstanceTotal]
 	}
 	
 	def list = {
@@ -22,8 +32,50 @@ class PluginController {
 
 	def metadata = {
 		def plugins = Plugin.list();
+		def pluginTotal = Plugin.count();
 		
-		render contentType:"text/xml", model:[plugins:plugins]
+		if (params.includeUpstream) {
+			// TODO include (cached) meta data from upstream repos
+		}
+		
+		[plugins:plugins, pluginTotal:pluginTotal]
+	}
+	
+	/**
+     * Index page with search form and results
+     */
+    def search = {
+		if (!searchableService) {
+			flash.message = "Search not available"
+			return [:]
+		}
+        if (!params.q?.trim()) {
+            return [:]
+        }
+        try {
+            return [searchResult: searchableService.search(params.q, params)]
+        } catch (SearchEngineQueryParseException ex) {
+            return [parseException: true]
+        }
+    }
+	
+	def docs = {
+		Plugin plugin
+		
+		if (params.version) {
+			plugin = Plugin.findByNameAndPluginVersion(params.plugin, params.version)
+		}
+		else {
+			plugin = Plugin.findByNameAndDefaultVersion(params.plugin, true)
+		}
+		
+		if (plugin == null) {
+			// plugin version not found
+			response.sendError 404
+			return
+		}
+		
+		[plugin:plugin]
 	}
 	
 	def download = {
@@ -67,22 +119,22 @@ class PluginController {
 		}
 	}
 	
-	protected isZip(def multipartFile) {
-		switch (multipartFile.contentType) {
-		case 'application/zip':
-		case 'application/x-zip-compressed':
-			return true;
-		}
-		return false
+	def upload = {
 	}
 	
-	def upload = {
-		def pluginFile = request.getFile("pluginFile")
+	def store = {
+		def pluginFile
+		try {
+			pluginFile = request.getFile("pluginFile")
+		}
+		catch (ex) {
+			
+		}
 		String error
 		if (pluginFile == null) {
 			error = "Invalid file!"
 		}
-		else if (!isZip(pluginFile)) {
+		else if (!storageService.isZip(pluginFile)) {
 			error = "Invalid file format!<br/> Expecting .zip file containing a Grails plugin."
 		}
 		else if (pluginFile.empty) {

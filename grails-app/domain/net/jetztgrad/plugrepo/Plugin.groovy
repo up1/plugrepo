@@ -7,12 +7,22 @@ class Plugin {
 	String pluginVersion
 	String grailsVersion
 	String fileToken
-	Repository repository
+	String documentation
 	Boolean defaultVersion
 	
+	static searchable = true
+	static belongsTo = [repository:Repository]
+	
     static constraints = {
+		name(nullable: true)
+		repository(nullable: true)
 		description(nullable: true)
 		author(nullable: true)
 		repository(nullable: true)
+		documentation(nullable: true)
     }
+
+	String toString() {
+		"${name}/${pluginVersion}"
+	}
 }

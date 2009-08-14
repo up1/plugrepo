@@ -1,0 +1,68 @@
+.note {
+	position: relative;
+	border: 1px solid #F0C000;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 10px;
+	width: 700;
+	background-color: #FFFFCE;
+}
+
+.code {
+	margin-top: 10px; //4px;
+	margin-bottom: 10px; //4px;
+	padding: 2px 2px 2px 2px;
+	color: inherit;
+	background-color: #F0F0F0;
+	border: 1px solid darkgrey;
+	font-family: courier, courier new, monospace;
+	font-size: inherit; //12px;
+	line-height: 100%;
+	white-space: pre;
+	overflow: auto;
+	overflow: scroll -moz-scrollbars-horizontal;
+	overflow-x: auto;
+}
+
+pre .code {
+	border: 1px solid black;
+	padding-bottom:10px;
+	background-color: lightgrey;    
+	padding-left:10px;
+	padding-top:10px;
+}
+
+div.centerbox {
+	position: relative;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding: 10px;
+	width: 700;
+	margin-left: auto;
+	margin-right: auto;
+	vertical-align: top;
+}
+
+div.search {
+	position:absolute;
+	right:10px;
+	top:10px;
+}
+
+.image_button {
+	text-align:center;
+	border: 1px solid darkgrey;
+}
+
+td.option {
+	vertical-align: bottom;
+	text-align: center;
+}
+
+
+table.noborder {
+	border-style: none !important; 
+	border-width: 0px !important;
+}

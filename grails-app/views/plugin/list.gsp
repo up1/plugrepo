@@ -2,14 +2,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="plugin" />
         <title>Plugin List</title>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
-            <span class="menuButton"><g:link class="create" action="create">New Plugin</g:link></span>
-        </div>
         <div class="body">
             <h1>Plugin List</h1>
             <g:if test="${flash.message}">
@@ -30,6 +26,8 @@
 							<g:sortableColumn property="grailsVersion" title="Grails Version" />
                    	    
                    	        <g:sortableColumn property="description" title="Description" />
+
+							<th>Docs</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,7 +45,8 @@
 							<td>${fieldValue(bean:pluginInstance, field:'grailsVersion')}</td>
                         
                             <td>${fieldValue(bean:pluginInstance, field:'description')}</td>
-                        
+
+                            <td><g:link action="docs" params="[plugin:fieldValue(bean:pluginInstance, field:'name'), version:fieldValue(bean:pluginInstance, field:'pluginVersion')]">Docs</g:link></td>                        
                         </tr>
                     </g:each>
                     </tbody>

@@ -104,6 +104,15 @@ class StorageService {
 		return false
 	}
 	
+	boolean isZip(def multipartFile) {
+		switch (multipartFile.contentType) {
+		case 'application/zip':
+		case 'application/x-zip-compressed':
+			return true;
+		}
+		return false
+	}
+	
 	def readPluginXml(String token) {
 		def pluginXml
 		

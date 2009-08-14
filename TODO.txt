@@ -1,0 +1,51 @@
+
+============ Plugin "plugrepo" ============
+
+* View containing repository configuration snippet and download link for BuildSettings.groovy:
+
+grails.plugin.repos.discovery.myRepository="http://localhost:8080/plugrepo/local"
+grails.plugin.repos.resolveOrder=['myRepository','core']
+
+* Tagging, Rating of plugins
+
+* Auto-download from documentation (Wiki) from upstream repos (grails.org)
+* Extract documentation from plugin zip (if available)
+
+* Upload via form
+* Upload via HTTP POST from curl, ant task, ...
+
+* Browseable plugins:
+User may view plugins, which are currently installed
+User may view plugins, which are available in a upstream repository
+	-> may select one or more and download them for local use
+	
+* plugrepo offers two reporitories: 
+- repo containing all local plugins, 
+- repo containing all local plugins + all plugins available in upstream repositories
+  which are transparently downloaded and installed locally for further offline use
+
+* blacklisting of plugins
+
+* Auto-update/download of all or newer version of locally available plugins 
+  from upstream repositories
+
+* policy whether to always retun newest or default plugin version, if not specified otherwise
+
+
+============ Application "grailsrepo" ============
+
+* provides a out-of-the-box plugin repository
+
+* uses plugins plugrepo, jsecurity/acegi, feed, quartz, ...
+
+* Periodic update of cached meta data from upstream repos
+
+* uploading of plugins into local repo and downloading from upstream
+  repos only for authenticated users
+
+* optionally download of plugins from repository only for authenticated 
+  users
+
+* mirror of grails, groovy docs with auto-update
+
+* RSS-feed for new or updated plugins, other events
