@@ -1,3 +1,6 @@
+import net.jetztgrad.plugrepo.Repository
+import net.jetztgrad.plugrepo.RepositoryType
+
 class BootStrap {
 
      def init = { servletContext ->
@@ -8,21 +11,34 @@ class BootStrap {
 		// local
 		def local = Repository.findByName(Repository.LOCAL)
 		if (!local) {
-			local = new Repository.findByName(name: Repository.LOCAL,
-											type: INTERNAL,
+			local = new Repository(name: Repository.LOCAL,
+											type: RepositoryType.INTERNAL,
 											description: "Main local repository",
 											priority: 15,
-											enabled: true).save(flush: true)
+											enabled: true)
+			if (local.save(flush: true)) {
+				println "created default local repository"
+			}
+			else {
+				println "failed to create default local repository:" + local.errors
+			}
 		}
 
 		// grails.org
-		def grailsOrg = Repository.findByName(Repository.LOCAL)
+		def grailsOrg = Repository.findByName(Repository.GRAILSORG)
 		if (!grailsOrg) {
-			grailsOrg = new Repository.findByName(name: Repository.GRAILSORG,
-											type: SUBVERSION,
+			grailsOrg = new Repository(name: Repository.GRAILSORG,
+											type: RepositoryType.SUBVERSION,
 											description: "Official Grails repository on grails.org",
 											repositoryURL: "http://plugins.grails.org", 
-											enabled: true).save(flush: true)
+											enabled: true)
+			
+			if (grailsOrg.save(flush: true)) {
+				println "created default grails.org repository"
+			}
+			else {
+				println "failed to create default grails.org repository:" + grailsOrg.errors
+			}
 		}
 	
      }

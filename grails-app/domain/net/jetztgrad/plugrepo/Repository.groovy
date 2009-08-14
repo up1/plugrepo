@@ -24,16 +24,18 @@ class Repository {
 
     static constraints = {
 		name(blank:false, unique:true, size:3..50)
-		repositoryURL(validator: { url, repo
+		repositoryURL(nullable:true, validator: { url, repo ->
 			if (repo.type != RepositoryType.INTERNAL) {
 				// must be valid url
 				try {
 					def u = new URL(url)
+					return true
 				}
 				catch (ex) {
 					return false
 				}
 			}
+			return true
 		})
 		description(blank:true, maxSize:500)
 		userName(nullable:true)
