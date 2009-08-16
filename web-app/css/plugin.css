@@ -57,7 +57,7 @@ div.search {
 }
 
 td.option {
-	vertical-align: bottom;
+	vertical-align: middle;	// bottom;
 	text-align: center;
 }
 
@@ -65,4 +65,29 @@ td.option {
 table.noborder {
 	border-style: none !important; 
 	border-width: 0px !important;
+}
+
+input.search {
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	background-color: #FFFFCE;
+}
+
+input.big {
+	font-size: large;
+}
+
+div.searchbox {
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	border-width: 2px;
+//	position: relative;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	vertical-align: top;
 }

@@ -12,11 +12,16 @@
 			<img src="${resource(dir:'images',file:'spinner.gif')}" alt="Spinner" />
 		</div>	
 		<div class="logo"><img src="${resource(dir:'images',file:'grails_logo.jpg')}" alt="Grails" /></div>
+		<%--
+		<g:render template="search"/>
+		--%>
+		<%--
 		<div class="search">
 			<g:form url="[controller:'plugin', action:'search']" id="searchableForm" name="searchableForm" method="get">
-		        <g:textField name="q" value="${params.q}" size="20"/> <input type="submit" value="Search" />
+		        <g:textField class="search" name="q" value="${params.q}" size="20"/> <input type="submit" value="Search" />
 		    </g:form>
 		</div>
+		--%>
 		<div class="nav">
 			<span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
 			<span class="menuButton"><g:link class="create" action="upload">Upload Plugin</g:link></span>
@@ -24,6 +29,9 @@
 			<span class="menuButton"><g:link class="list" controller="plugin" action="list">List</g:link></span>
 			<span class="menuButton"><g:link class="list" controller="plugin" action="metadata">Plugin metadata</g:link></span>
 		</div>
-		<g:layoutBody />		
+		<div class="centerbox">
+			<h1>Plugin Repository</h1>
+			<g:layoutBody />
+		</div>
 	</body>	
 </html>

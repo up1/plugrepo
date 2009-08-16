@@ -93,7 +93,7 @@
   <body onload="focusQueryInput();">
   <div id="header">
     <g:form url='[controller: "plugin", action: "search"]' id="searchableForm" name="searchableForm" method="get">
-        <g:textField name="q" value="${params.q}" size="50"/> <input type="submit" value="Search" />
+        <g:textField class="search" name="q" value="${params.q}" size="50"/> <input type="submit" value="Search" />
     </g:form>
     <div style="clear: both; display: none;" class="hint">See <a href="http://lucene.apache.org/java/docs/queryparsersyntax.html">Lucene query syntax</a> for advanced queries</div>
   </div>

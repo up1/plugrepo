@@ -120,6 +120,12 @@ class PluginController {
 	}
 	
 	def upload = {
+		def repositories = Repository.findAllByType(RepositoryType.INTERNAL)
+		def preselectedRepository = Repository.findByName(Repository.LOCAL)
+		if (!preselectedRepository) {
+			preselectedRepository = repositories?.size() ? repositories[0] : null
+		}
+		[repositories: repositories, preselectedRepository: preselectedRepository ]
 	}
 	
 	def store = {

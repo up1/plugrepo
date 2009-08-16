@@ -20,6 +20,7 @@ class Repository {
 	Integer priority = DEFAULT_PRIORITY
 	Boolean enabled = true
 	
+	static searchable = true
 	static hasMany = [plugins:Plugin]
 
     static constraints = {
@@ -44,4 +45,8 @@ class Repository {
 		priority(nullable:false, min:0, max:20)
 		type(nullable:false)
     }
+
+	String toString() {
+		"${name}"
+	}
 }
