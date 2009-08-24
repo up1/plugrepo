@@ -8,7 +8,7 @@ class Plugin {
 	String grailsVersion
 	String fileToken
 	String documentation
-	Boolean defaultVersion
+	Boolean defaultVersion = false
 	
 	static searchable = true
 	static belongsTo = [repository:Repository]
@@ -20,6 +20,9 @@ class Plugin {
 		author(nullable: true)
 		repository(nullable: true)
 		documentation(nullable: true)
+		pluginVersion(nullable: false)
+		grailsVersion(nullable: true)
+		fileToken(nullable: true)
     }
 
 	String toString() {

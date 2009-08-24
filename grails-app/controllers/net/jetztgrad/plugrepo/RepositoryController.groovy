@@ -3,6 +3,8 @@
 package net.jetztgrad.plugrepo
 
 class RepositoryController {
+	
+	def remoteRepositoryService
     
     def index = { redirect(action:list,params:params) }
 
@@ -13,6 +15,11 @@ class RepositoryController {
         params.max = Math.min( params.max ? params.max.toInteger() : 10,  100)
         [ repositoryInstanceList: Repository.list( params ), repositoryInstanceTotal: Repository.count() ]
     }
+
+	def scan = {
+		def updatedPlugins = remoteRepositoryService.update()
+		render view: 'newplugins', model:[updatedPluginsMap: updatedPlugins]
+	}
 
     def show = {
         def repositoryInstance = Repository.get( params.id )

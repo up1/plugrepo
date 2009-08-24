@@ -3,12 +3,14 @@ package net.jetztgrad.plugrepo
 enum RepositoryType {
 	INTERNAL,
 	PLUGREPO,
-	SUBVERSION
+	SUBVERSION,
+	URL
 }
 
 class Repository {
 	static final String GRAILSORG = "Grails.org"
 	static final String LOCAL = "Local"
+	static final String TEST = "Test"
 	static final int DEFAULT_PRIORITY = 10
 	
 	String name
