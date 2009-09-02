@@ -30,8 +30,8 @@ class BootStrap {
 		if (GrailsUtil.environment == 'test') {
 			def localTest = Repository.findByName(Repository.TEST)
 			if (!localTest) {
-				def home = System.getProperty('user.home')
-				def fileUrlString = "file://${home}/dev/plugins-list.xml"
+				def home = System.getProperty('user.dir')
+				def fileUrlString = "file://${home}/test-data/plugins-list.xml"
 				localTest = new Repository(name: Repository.TEST,
 												type: RepositoryType.URL,
 												description: "Local test repository",
@@ -48,22 +48,23 @@ class BootStrap {
 		}
 
 		// grails.org
-		def grailsOrg = Repository.findByName(Repository.GRAILSORG)
-		if (!grailsOrg) {
-			grailsOrg = new Repository(name: Repository.GRAILSORG,
-											type: RepositoryType.SUBVERSION,
-											description: "Official Grails repository on grails.org",
-											repositoryURL: "http://plugins.grails.org", 
-											enabled: true)
+		if (GrailsUtil.environment != 'test') {
+			def grailsOrg = Repository.findByName(Repository.GRAILSORG)
+			if (!grailsOrg) {
+				grailsOrg = new Repository(name: Repository.GRAILSORG,
+												type: RepositoryType.SUBVERSION,
+												description: "Official Grails repository on grails.org",
+												repositoryURL: "http://plugins.grails.org", 
+												enabled: true)
 			
-			if (grailsOrg.save(flush: true)) {
-				println "created default grails.org repository"
-			}
-			else {
-				println "failed to create default grails.org repository:" + grailsOrg.errors
+				if (grailsOrg.save(flush: true)) {
+					println "created default grails.org repository"
+				}
+				else {
+					println "failed to create default grails.org repository:" + grailsOrg.errors
+				}
 			}
 		}
-	
      }
      def destroy = {
      }
