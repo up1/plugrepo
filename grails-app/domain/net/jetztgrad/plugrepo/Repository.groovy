@@ -23,7 +23,7 @@ class Repository {
 	Boolean enabled = true
 	
 	static searchable = true
-	static hasMany = [plugins:Plugin]
+	static hasMany = [releases:PluginRelease]
 
     static constraints = {
 		name(blank:false, unique:true, size:3..50)

@@ -1,10 +1,19 @@
 
 ============ Plugin "plugrepo" ============
+* Split Repository into RemoteRepository and InternalRepository
+RemoteRepository has URL, and maybe other info,
+InternalRepository has DataLocation
+
+* Plugin.defaultVersion (PluginRelease)
+
+* Each internal repository may have its own DataLocation
 
 * View containing repository configuration snippet and download link for BuildSettings.groovy:
 
 grails.plugin.repos.discovery.myRepository="http://localhost:8080/plugrepo/local"
 grails.plugin.repos.resolveOrder=['myRepository','core']
+
+* View to generate BuildSettings.groovy with specified options (Repositories to include, order, ...). File can be displayed and downloaded.
 
 * Tagging, Rating of plugins
 
@@ -31,20 +40,15 @@ User may view plugins, which are available in a upstream repository
 
 * policy whether to always retun newest or default plugin version, if not specified otherwise
 
+* Security: Roles for uploading, updating from parent repo, download
 
-============ Application "grailsrepo" ============
-
-* provides a out-of-the-box plugin repository
-
-* uses plugins plugrepo, jsecurity/acegi, feed, quartz, ...
-
-* Periodic update of cached meta data from upstream repos
-
-* uploading of plugins into local repo and downloading from upstream
+* Security: uploading of plugins into local repo and downloading from upstream
   repos only for authenticated users
 
-* optionally download of plugins from repository only for authenticated 
+* Security: optionally download of plugins from repository only for authenticated 
   users
+
+* Periodic update of cached meta data from upstream repos
 
 * mirror of grails, groovy docs with auto-update
 

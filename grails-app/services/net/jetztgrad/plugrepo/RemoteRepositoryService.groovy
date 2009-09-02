@@ -18,20 +18,8 @@ class RemoteRepositoryService {
 			log.debug "updating plugins for repository ${repo.name}"
 			
 			try {
-				// TODO use Groovy HTTPBuilder
-				def urlString = repo.repositoryURL
-				if (repo.type == RepositoryType.SUBVERSION) {
-					urlString = "${repo.repositoryURL}/.plugin-meta/plugins-list.xml"
-				}
-				URL url = new URL(urlString)
-				URLConnection conn = url.openConnection()
-				conn.setDoInput(true)
-				conn.setDoOutput(false)
-				int timeout = 60 *1000
-				conn.setConnectTimeout(timeout)
-				conn.connect()
-				def response = conn.getInputStream()
-				def pluginList = new XmlSlurper().parse(response)
+				def pluginXml = getPluginXml(repo)
+				def pluginList = new XmlSlurper().parse(pluginXml)
 				def newPlugins = createPluginsFromXml(repo, pluginList)
 				
 				updatedPlugins[repo.name] << newPlugins
@@ -48,45 +36,77 @@ class RemoteRepositoryService {
 		return updatedPlugins
     }
 
-	protected List createPluginsFromXml(def repo, def pluginList) {
+	Reader getPluginXml(def repo) {
+		// TODO use Groovy HTTPBuilder
+		def urlString = repo.repositoryURL
+		if (repo.type == RepositoryType.SUBVERSION) {
+			urlString = "${repo.repositoryURL}/.plugin-meta/plugins-list.xml"
+		}
+		URL url = new URL(urlString)
+		URLConnection conn = url.openConnection()
+		conn.setDoInput(true)
+		conn.setDoOutput(false)
+		int timeout = 60 *1000
+		conn.setConnectTimeout(timeout)
+		conn.connect()
+		def response = conn.getInputStream()
+		
+		return new InputStreamReader(response)
+	}
+
+	List createPluginsFromXml(def repo, def pluginList) {
 		def newPlugins = []
+		def newPluginReleases = []
 		
 		log.info "parsing plugin list of repository ${repo.name}"
 		
 //		Plugin.withSession { session ->
 //			Plugin.withTransaction {
 
-				pluginList.plugin*.release*.each { release ->
-					def plugin = release.parent()
-					def name = plugin.@name?.text()
-					def version = release.@version?.text()
+				pluginList.plugin*.release*.each { elRelease ->
+					def elPlugin = elRelease.parent()
+					def name = elPlugin.@name?.text()
+					def version = elRelease.@version?.text()
 
-					log.info "repository ${repo.name}: $name $version"
+					//log.info "repository ${repo.name}: $name $version"
 
-					//def pluginRelease = Plugin.findByNameAndPluginVersion(name, version)
-					def pluginRelease = Plugin.find("from Plugin as p where p.name = ? and p.pluginVersion = ? and p.repository = ?", [ name, version, repo ])
-					if (!pluginRelease) {
-						def author = release.author?.text()
-						def description = release.@description?.text()
-
-						pluginRelease = new Plugin(name: name, 
-							pluginVersion: version,
-							repository: repo,
-							author: author,
-							description: description)
-						pluginRelease = pluginRelease.merge()
-						if (pluginRelease.save()) {
-							newPlugins << pluginRelease
-							log.info "found new plugin $name $version ($author)"
+					// get or create plugin
+					def plugin = Plugin.findByName(name)
+					if (!plugin) {
+						def author = elRelease.author?.text()
+						def description = elRelease.@description?.text()
+						
+						plugin = new Plugin(name: name, 
+											author: author,
+											description: description)
+						if (plugin.save()) {
+							newPlugins << plugin
+							log.info "found new plugin $name ($author)"
 						}
 						else {
-							log.error "failed to save new plugin $name $version: ${pluginRelease.errors}"
+							log.error "failed to save new plugin $name: ${plugin.errors}"
 						}
 					}
-					// TODO remove me
-					else {
-						newPlugins << pluginRelease
-						log.debug "found existing plugin $name $version"
+					
+					// get or create plugin release
+					//def pluginRelease = Plugin.findByNameAndPluginVersion(name, version)
+					def pluginRelease = PluginRelease.find("from PluginRelease as p where p.name = ? and p.pluginVersion = ? and p.repository = ?", [ name, version, repo ])
+					if (!pluginRelease) {
+
+						pluginRelease = new PluginRelease(name: name, 
+							pluginVersion: version,
+							plugin: plugin,
+							repository: repo)
+						repo.addToReleases(pluginRelease)
+						plugin.addToReleases(pluginRelease)
+						if (repo.save()
+							&& plugin.save()) {
+							newPluginReleases << pluginRelease
+							log.info "found new plugin release $name $version"
+						}
+						else {
+							log.error "failed to save new plugin release $name $version: ${pluginRelease.errors}"
+						}
 					}
 				}
 //			}
@@ -95,6 +115,6 @@ class RemoteRepositoryService {
 		
 		log.info "finished parsing plugin list of repository ${repo.name} (${newPlugins.size()} new)"
 		
-		return newPlugins
+		return newPluginReleases
 	}
 }

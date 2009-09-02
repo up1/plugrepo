@@ -2,16 +2,18 @@ package net.jetztgrad.plugrepo
 
 
 class RemoteRepoUpdaterJob {
-    def timeout = 5000l // execute job once in 5 seconds
-
 	// update every 4 hours
-	def cronExpression = "0 0 0/4 * * ?"
-	def group = "Repository"
+	static triggers = {
+		cron name:'PeriodicRemoteRepoUpdater', startDelay:10000, cronExpression: '0 0 0/4 * * ?'
+	}
+	def group = 'Repository'
 
 	def remoteRepositoryService
 
     def execute() {
-        // execute task
-		remoteRepositoryService.update()
+		// execute task
+		log.info "updating remote repositories"
+		log.info "TODO reenable task"
+		//remoteRepositoryService.update()
     }
 }

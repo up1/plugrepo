@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>grails-app/services/net/jetztgrad/plugrepo/RemoteRepositoryService.groovy</string>
+	<string>TODO.txt</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -26,9 +26,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>37</integer>
+				<integer>39</integer>
 				<key>line</key>
-				<integer>18</integer>
+				<integer>6</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -40,28 +40,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>16</integer>
+				<integer>37</integer>
 				<key>line</key>
-				<integer>13</integer>
+				<integer>29</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>10</integer>
-		</dict>
-		<key>grails-app/conf/Config.groovy</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>14</integer>
-				<key>line</key>
-				<integer>72</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
 			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>31</integer>
 		</dict>
 		<key>grails-app/conf/Searchable.groovy</key>
 		<dict>
@@ -107,42 +93,116 @@
 				<integer>2</integer>
 			</dict>
 		</dict>
+		<key>grails-app/controllers/net/jetztgrad/plugrepo/PluginAdminController.groovy</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>36</integer>
+				<key>line</key>
+				<integer>2</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>grails-app/controllers/net/jetztgrad/plugrepo/PluginController.groovy</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>19</integer>
+				<integer>37</integer>
 				<key>line</key>
-				<integer>13</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>7</integer>
-		</dict>
-		<key>grails-app/controllers/net/jetztgrad/plugrepo/RepositoryController.groovy</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>9</integer>
-				<key>line</key>
-				<integer>18</integer>
+				<integer>20</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>1</integer>
 		</dict>
+		<key>grails-app/controllers/net/jetztgrad/plugrepo/PluginReleaseController.groovy</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>grails-app/controllers/net/jetztgrad/plugrepo/RepositoryController.groovy</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>78</integer>
+				<key>line</key>
+				<integer>14</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>7</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>8</integer>
+				<key>line</key>
+				<integer>14</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>78</integer>
+				<key>line</key>
+				<integer>14</integer>
+			</dict>
+		</dict>
 		<key>grails-app/domain/net/jetztgrad/plugrepo/Plugin.groovy</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>31</integer>
+				<integer>27</integer>
 				<key>line</key>
-				<integer>10</integer>
+				<integer>9</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>19</integer>
+				<key>line</key>
+				<integer>9</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>27</integer>
+				<key>line</key>
+				<integer>9</integer>
+			</dict>
+		</dict>
+		<key>grails-app/domain/net/jetztgrad/plugrepo/PluginRelease.groovy</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>5</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -154,116 +214,56 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>21</integer>
+				<integer>19</integer>
 				<key>line</key>
-				<integer>12</integer>
+				<integer>25</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>7</integer>
-		</dict>
-		<key>grails-app/jobs/net/jetztgrad/plugrepo/RemoteRepoUpdaterJob.groovy</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>32</integer>
-				<key>line</key>
-				<integer>14</integer>
-			</dict>
-			<key>columnSelection</key>
-			<false/>
-			<key>firstVisibleColumn</key>
 			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>26</integer>
-				<key>line</key>
-				<integer>14</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>32</integer>
-				<key>line</key>
-				<integer>14</integer>
-			</dict>
 		</dict>
 		<key>grails-app/services/net/jetztgrad/plugrepo/RemoteRepositoryService.groovy</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>43</integer>
+				<integer>5</integer>
 				<key>line</key>
-				<integer>76</integer>
+				<integer>72</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>51</integer>
+			<integer>68</integer>
 		</dict>
 		<key>grails-app/services/net/jetztgrad/plugrepo/StorageService.groovy</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>41</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>130</integer>
-			</dict>
-			<key>columnSelection</key>
-			<false/>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>104</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>18</integer>
-				<key>line</key>
-				<integer>130</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>41</integer>
-				<key>line</key>
-				<integer>130</integer>
-			</dict>
-		</dict>
-		<key>grails-app/views/layouts/plugin.gsp</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>87</integer>
-				<key>line</key>
-				<integer>27</integer>
+				<integer>62</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>32</integer>
 		</dict>
 		<key>grails-app/views/plugin/_list.gsp</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>46</integer>
+				<integer>4</integer>
 				<key>line</key>
-				<integer>35</integer>
+				<integer>9</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>3</integer>
+			<integer>0</integer>
 		</dict>
 		<key>grails-app/views/plugin/_search.gsp</key>
 		<dict>
@@ -279,75 +279,47 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>grails-app/views/plugin/browse.gsp</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>27</integer>
+				<key>line</key>
+				<integer>25</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>7</integer>
+		</dict>
 		<key>grails-app/views/plugin/index.gsp</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>7</integer>
-				<key>line</key>
-				<integer>29</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>9</integer>
-		</dict>
-		<key>grails-app/views/plugin/list.gsp</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>11</integer>
-				<key>line</key>
 				<integer>0</integer>
+				<key>line</key>
+				<integer>33</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>grails-app/views/plugin/upload.gsp</key>
+		<key>test/integration/net/jetztgrad/plugrepo/RemoteRepositoryServiceTests.groovy</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
 				<integer>0</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>65</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>grails-app/views/repository/list.gsp</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>9</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>grails-app/views/repository/newplugins.gsp</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>11</integer>
-				<key>line</key>
-				<integer>11</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>43</integer>
 		</dict>
 		<key>web-app/css/main.css</key>
 		<dict>
@@ -381,16 +353,14 @@
 	<key>openDocuments</key>
 	<array>
 		<string>grails-app/controllers/net/jetztgrad/plugrepo/PluginController.groovy</string>
+		<string>grails-app/views/plugin/browse.gsp</string>
 		<string>grails-app/controllers/net/jetztgrad/plugrepo/RepositoryController.groovy</string>
-		<string>grails-app/views/repository/list.gsp</string>
-		<string>grails-app/views/plugin/list.gsp</string>
-		<string>grails-app/views/repository/newplugins.gsp</string>
 		<string>grails-app/views/plugin/_list.gsp</string>
-		<string>grails-app/views/plugin/upload.gsp</string>
-		<string>grails-app/views/layouts/plugin.gsp</string>
-		<string>grails-app/jobs/net/jetztgrad/plugrepo/RemoteRepoUpdaterJob.groovy</string>
 		<string>grails-app/services/net/jetztgrad/plugrepo/RemoteRepositoryService.groovy</string>
-		<string>grails-app/conf/Config.groovy</string>
+		<string>test/integration/net/jetztgrad/plugrepo/RemoteRepositoryServiceTests.groovy</string>
+		<string>TODO.txt</string>
+		<string>grails-app/controllers/net/jetztgrad/plugrepo/PluginAdminController.groovy</string>
+		<string>grails-app/controllers/net/jetztgrad/plugrepo/PluginReleaseController.groovy</string>
 		<string>grails-app/services/net/jetztgrad/plugrepo/StorageService.groovy</string>
 		<string>grails-app/views/plugin/index.gsp</string>
 		<string>grails-app/views/plugin/_search.gsp</string>
@@ -399,11 +369,12 @@
 		<string>grails-app/conf/BootStrap.groovy</string>
 		<string>grails-app/conf/UrlMappings.groovy</string>
 		<string>grails-app/domain/net/jetztgrad/plugrepo/Plugin.groovy</string>
+		<string>grails-app/domain/net/jetztgrad/plugrepo/PluginRelease.groovy</string>
 		<string>grails-app/conf/Searchable.groovy</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{338, 69}, {936, 809}}</string>
+	<string>{{345, 69}, {935, 933}}</string>
 </dict>
 </plist>

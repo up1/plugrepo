@@ -1,3 +1,5 @@
+import grails.util.GrailsUtil
+
 import net.jetztgrad.plugrepo.Repository
 import net.jetztgrad.plugrepo.RepositoryType
 
@@ -25,21 +27,23 @@ class BootStrap {
 		}
 		
 		// local
-		def localTest = Repository.findByName(Repository.TEST)
-		if (!localTest) {
-			def home = System.getProperty('user.home')
-			def fileUrlString = "file://${home}/dev/plugins-list.xml"
-			localTest = new Repository(name: Repository.TEST,
-											type: RepositoryType.URL,
-											description: "Local test repository",
-											repositoryURL: fileUrlString, 
-											priority: 5,
-											enabled: true)
-			if (localTest.save(flush: true)) {
-				println "created local test repository"
-			}
-			else {
-				println "failed to create local test repository:" + local.errors
+		if (GrailsUtil.environment == 'test') {
+			def localTest = Repository.findByName(Repository.TEST)
+			if (!localTest) {
+				def home = System.getProperty('user.home')
+				def fileUrlString = "file://${home}/dev/plugins-list.xml"
+				localTest = new Repository(name: Repository.TEST,
+												type: RepositoryType.URL,
+												description: "Local test repository",
+												repositoryURL: fileUrlString, 
+												priority: 5,
+												enabled: true)
+				if (localTest.save(flush: true)) {
+					println "created local test repository"
+				}
+				else {
+					println "failed to create local test repository:" + local.errors
+				}
 			}
 		}
 

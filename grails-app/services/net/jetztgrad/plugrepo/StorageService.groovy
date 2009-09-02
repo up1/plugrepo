@@ -12,6 +12,10 @@ import org.codehaus.groovy.grails.web.context.ServletContextHolder
 
 import org.springframework.web.multipart.MultipartFile
 
+import net.jetztgrad.plugrepo.Repository
+import net.jetztgrad.plugrepo.Plugin
+import net.jetztgrad.plugrepo.PluginRelease
+
 class StorageService {
 
     boolean transactional = true
@@ -24,9 +28,9 @@ class StorageService {
 	*
 	* @return token, which can be used to read or delete the file
 	*/
-    String storeFile(InputStream stream, String name) {
+    String storeFile(Repository repository, InputStream stream, String name) {
 		String token = getNextToken(name)
-		String path = getPathForToken(token)
+		String path = getPathForToken(repository, token)
 		
 		log.debug "storing file ${path}"
 		
@@ -64,9 +68,9 @@ class StorageService {
 	*
 	* @return token, which can be used to read or delete the file
 	*/
-	String storeFile(MultipartFile file) {
+	String storeFile(Repository repository, MultipartFile file) {
 		String token = getNextToken(file.originalFilename)
-		String path = getPathForToken(token)
+		String path = getPathForToken(repository, token)
 		
 		log.debug "storing file ${path}"
 		
@@ -81,8 +85,8 @@ class StorageService {
 	*
 	* @return token, which can be used to read or delete the file
 	*/
-	InputStream readFile(String token) {
-		String path = getPathForToken(token)
+	InputStream readFile(Repository repository, String token) {
+		String path = getPathForToken(repository, token)
 		File file = new File(path)
 		return new FileInputStream(file)
 	}
@@ -94,8 +98,8 @@ class StorageService {
 	*
 	* @return token, which can be used to read or delete the file
 	*/
-	def deleteFile(String token) {
-		String path = getPathForToken(token)
+	def deleteFile(Repository repository, String token) {
+		String path = getPathForToken(repository, token)
 		File file = new File(path)
 		if (file.exists()) {
 			return file.delete()
@@ -113,13 +117,19 @@ class StorageService {
 		return false
 	}
 	
-	def readPluginXml(String token) {
+	/**
+	* Read a plugin's plugin.xml, which contains information 
+	* such as author, description, version, etc.
+	*
+	* @param token file token of the plugin as returned by storeFile()
+	*/
+	def readPluginXml(Repository repository, String token) {
 		def pluginXml
 		
 		InputStream inp
 		try {
 			// read plugin .zip
-			inp = readFile(token)
+			inp = readFile(repository, token)
 			if (inp) {
 				ZipInputStream zin = new ZipInputStream(inp)
 
@@ -148,19 +158,20 @@ class StorageService {
 		return pluginXml
 	}
 	
-	String getFileName(String token) {
-		String path = getPathForToken(token)
+	String getFileName(Repository repository, String token) {
+		String path = getPathForToken(repository, token)
 		File file = new File(path)
 		return file.name
 	}
 	
-	int getFileSize(String token) {
-		String path = getPathForToken(token)
+	int getFileSize(Repository repository, String token) {
+		String path = getPathForToken(repository, token)
 		File file = new File(path)
 		return file.size
 	}
 	
-	protected String getPathForToken(String token) {
+	protected String getPathForToken(Repository repository, String token) {
+		String dataDirectory = getDataDirectory(repository)
 		"${dataDirectory}/${token}"
 	}
 	
@@ -168,7 +179,9 @@ class StorageService {
 		return fileName
 	}
 	
-	String getDataDirectory() {
+	String getDataDirectory(Repository repository) {
+		// TODO get path from repository/data location
+		
 		def path = ConfigurationHolder.config.plugrepo.plugins.dir
 
 		if (path != null) {

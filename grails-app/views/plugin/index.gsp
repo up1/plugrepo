@@ -6,7 +6,7 @@
         <title>Plugin List</title>
     </head>
     <body>
-        <div class="body">
+		<div class="body">
 				<g:if test="${flash.message}">
 					<div class="message">${flash.message}</div>
 				</g:if>
@@ -51,5 +51,6 @@ grails.plugin.repos.resolveOrder=['myRepository','core']
 </pre>
 				<p>Also, see <a href="http://grails.org/doc/1.1.x/guide/single.html#12.2%20Plugin%20Repositories">Grails Docs</a> for details.</p>
 			</div>
-    </body>
+		</div>
+	</body>
 </html>

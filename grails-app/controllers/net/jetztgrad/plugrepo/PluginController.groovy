@@ -17,7 +17,9 @@ class PluginController {
 	}
 	
 	def browse = {
-		def plugins = Plugin.list();
+		params.max = Math.min( params.max ? params.max.toInteger() : 10,  100)
+		params.sort = params?.sort ?: 'name'
+		def plugins = Plugin.list(params);
 		def pluginInstanceTotal = Plugin.count();
 		
 		[pluginInstanceList:plugins, pluginInstanceTotal: pluginInstanceTotal]
@@ -94,8 +96,8 @@ class PluginController {
 			return
 		}
 
-		String token = plugin.fileToken;
-		InputStream inp = storageService.readFile(token)
+		String fileToken = plugin.fileToken;
+		InputStream inp = storageService.readFile(fileToken)
 		if (inp == null) {
 			// file not found
 			response.sendError(404)
@@ -129,12 +131,15 @@ class PluginController {
 	}
 	
 	def store = {
+		def repositories = Repository.findAllByType(RepositoryType.INTERNAL)
+		
 		def pluginFile
 		try {
 			pluginFile = request.getFile("pluginFile")
 		}
 		catch (ex) {
-			
+			//ex.printStackTrace()
+			// exception is handled below
 		}
 		String error
 		if (pluginFile == null) {
@@ -147,22 +152,33 @@ class PluginController {
 			error = "File is empty"
 		}
 		
+		def repo = Repository.get(params?.repository?.id)
+		if (!repo) {
+			error = "invalid repository"
+		}
+		else {
+			// TODO check repository type, only internal repos are valid
+		}
+		
 		if (error) {
 			flash.message = error
-			render(view:"index", model:[plugin:null])
+			render(view:"upload", model:[plugin:null, repositories: repositories, preselectedRepository: repo])
 		}
 		
 		// store file
+		// TODO store to temporary location, so the plugin won't overwrite
+		// an existing plugin with the same name. As an alternative, the file path
+		// should be unique for each plugin.
 		String fileName = pluginFile.originalFilename
-		def token = storageService.storeFile(pluginFile)
+		def fileToken = storageService.storeFile(repo, pluginFile)
 		
-		if (token == null) {
+		if (fileToken == null) {
 			flash.message = "failed to store file!"
-			render(view:"index", model:[plugin:null])
+			render(view:"upload", model:[plugin:null, repositories: repositories, preselectedRepository: repo])
 		}
 		
 		// inspect plugin xml
-		def pluginXml = storageService.readPluginXml(token)
+		def pluginXml = storageService.readPluginXml(repo, fileToken)
 		if (pluginXml) {
 			String pluginName = pluginXml.@name
 			String pluginVersion = pluginXml.@version
@@ -170,27 +186,76 @@ class PluginController {
 			String author = pluginXml.author
 			String description = pluginXml.description
 		
-			Plugin plugin = Plugin.findByNameAndPluginVersion(pluginName, pluginVersion)
-			if (plugin == null) {
-				def count = Plugin.findAllByName(pluginName)
-				boolean defaultVersion = false
-				if (count == 0) {
-					defaultVersion = true
+			// get or create plugin
+			def plugin = Plugin.findByName(pluginName)
+			if (!plugin) {
+				plugin = new Plugin(name: pluginName, 
+									author: author,
+									description: description)
+				if (plugin.save()) {
+					log.info "found new plugin $pluginName ($author)"
 				}
-				plugin = new Plugin(name: pluginName, pluginVersion: pluginVersion, grailsVersion: grailsVersion, fileToken: token, defaultVersion:defaultVersion, author:author, description:description)
+				else {
+					log.error "failed to save new plugin $pluginName: ${plugin.errors}"
+				}
 			}
+			
+			// get or create plugin release
+			//def pluginRelease = Plugin.findByNameAndPluginVersion(name, version)
+			def pluginRelease = PluginRelease.find("from PluginRelease as p where p.name = ? and p.pluginVersion = ? and p.repository = ?", [ pluginName, pluginVersion, repo ])
+			if (!pluginRelease) {
+				boolean defaultVersion = params?.useAsDefaultVersion ?: false
+				if (!defaultVersion) {
+					// check plugin count and set to true if there is only one
+					def count = PluginRelease.findAllByNameAndRepository(pluginName, repo)
+					if (count == 0) {
+						defaultVersion = true
+					}
+					// TODO reset default version property for other plugin releases
+					// or move property defaultVersion to class Plugin as relation
+				}
 
-			if (plugin.save(flush:true)) {			
-				flash.message = "successfully uploaded plugin"
+				pluginRelease = new PluginRelease(name: pluginName, 
+					pluginVersion: pluginVersion,
+					grailsVersion: grailsVersion,
+					fileToken: fileToken, 
+					defaultVersion: defaultVersion,
+					plugin: plugin,
+					repository: repo)
+				repo.addToReleases(pluginRelease)
+				plugin.addToReleases(pluginRelease)
+				if (repo.save()
+					&& plugin.save()) {
+					flash.message = "successfully uploaded plugin $pluginName (Version $pluginVersion)"
+					log.info "uploaded plugin $pluginName (Version $pluginVersion)"
+				}
+				else {
+					// TODO delete file
+					
+					flash.message = "failed to save new plugin $pluginName (Version $pluginVersion)"
+					log.error "failed to save new plugin $pluginName (Version $pluginVersion)"
+				}
 			}
 			else {
-				flash.message = "failed to upload plugin"
+				// handle existing plugins
+				if (params?.updateIfExists) {
+					// TODO overwrite
+					
+					flash.message = "Plugin $pluginName (Version $pluginVersion) has been updated (same version number)"
+					log.info "plugin $pluginName (Version $pluginVersion) has been updated (same version number)"
+				}
+				else {
+					// TODO delete file
+					
+					flash.message = "plugin $pluginName (Version $pluginVersion) already exists! Aborted uploading"
+					log.info "plugin $pluginName (Version $pluginVersion) already exists! Aborted uploading"
+				}
 			}
-			render(view:"index", model:[plugin: plugin, pluginVersion: pluginVersion])
+			render(view:"upload", model:[plugin: plugin, pluginVersion: pluginVersion, pluginRelease: pluginRelease, repositories: repositories, preselectedRepository: repo])
 		}
 		else {
 			flash.message = "Invalid plugin contents!"
-			render(view:"index")
+			render(view:"upload", model:[repositories: repositories, preselectedRepository: repo])
 		}
 	}
 }

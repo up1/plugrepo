@@ -55,6 +55,14 @@ log4j = {
     //appenders {
     //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
     //}
+	appenders {
+		file name:'file', file:'plugrepo.log'
+	}
+
+	root {
+		info 'stdout', 'file'
+		additivity = true
+	}
 
     error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
 	       'org.codehaus.groovy.grails.web.pages', //  GSP
