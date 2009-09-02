@@ -1,3 +1,6 @@
 devDb.*
+testDb.*
+plugrepo.log
+stacktrace.log
 web-app/plugins/
 test/reports/
