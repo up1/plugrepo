@@ -5,8 +5,6 @@
 				<g:sortableColumn property="name" title="Name" />
 <%--
 				<g:sortableColumn property="author" title="Author" />
-
-				<g:sortableColumn property="defaultVersion" title="Default" />
 --%>
 				<g:sortableColumn property="pluginVersion" title="Version" />
 <%--
@@ -25,8 +23,6 @@
 
 <%--
 					<td>${fieldValue(bean:pluginInstance, field:'author')}</td>
-
-					<td>${fieldValue(bean:pluginInstance, field:'defaultVersion')}</td>
 --%>
 					<td>${fieldValue(bean:pluginInstance, field:'pluginVersion')}</td>
 <%--

@@ -67,6 +67,8 @@ class RemoteRepositoryService {
 					def elPlugin = elRelease.parent()
 					def name = elPlugin.@name?.text()
 					def version = elRelease.@version?.text()
+					def documentationUrl = elRelease.documentation?.text()
+					def downloadUrl = elRelease.file?.text()
 
 					//log.info "repository ${repo.name}: $name $version"
 
@@ -96,7 +98,9 @@ class RemoteRepositoryService {
 						pluginRelease = new PluginRelease(name: name, 
 							pluginVersion: version,
 							plugin: plugin,
-							repository: repo)
+							repository: repo,
+							documentationUrl: documentationUrl,
+							downloadUrl: downloadUrl)
 						repo.addToReleases(pluginRelease)
 						plugin.addToReleases(pluginRelease)
 						if (repo.save()
@@ -105,7 +109,7 @@ class RemoteRepositoryService {
 							log.info "found new plugin release $name $version"
 						}
 						else {
-							log.error "failed to save new plugin release $name $version: ${pluginRelease.errors}"
+							log.error "failed to save new plugin release $name $version: ${pluginRelease?.errors}, ${repo?.errors}, ${plugin?.errors}"
 						}
 					}
 				}

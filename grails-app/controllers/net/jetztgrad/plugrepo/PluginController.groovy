@@ -63,21 +63,32 @@ class PluginController {
 	
 	def docs = {
 		Plugin plugin
+		PluginRelease pluginRelease
 		
 		if (params.version) {
-			plugin = Plugin.findByNameAndPluginVersion(params.plugin, params.version)
+			pluginRelease = PluginRelease.findByNameAndPluginVersion(params.plugin, params.version)
 		}
 		else {
-			plugin = Plugin.findByNameAndDefaultVersion(params.plugin, true)
+			plugin = Plugin.findByName(params.plugin, true)
+			if (plugin) {
+				pluginRelease = plugin.defaultRelease
+			}
+			
+			if (!pluginRelease) {
+				def results = PluginRelease.findAllByName(params.plugin, [max:1, sort:"pluginVersion", order:"desc"])
+				if (results) {
+					pluginRelease = results[0]
+				}
+			}
 		}
 		
-		if (plugin == null) {
+		if (pluginRelease == null) {
 			// plugin version not found
 			response.sendError 404
 			return
 		}
 		
-		[plugin:plugin]
+		[pluginRelease:pluginRelease]
 	}
 	
 	def download = {
@@ -204,26 +215,22 @@ class PluginController {
 			//def pluginRelease = Plugin.findByNameAndPluginVersion(name, version)
 			def pluginRelease = PluginRelease.find("from PluginRelease as p where p.name = ? and p.pluginVersion = ? and p.repository = ?", [ pluginName, pluginVersion, repo ])
 			if (!pluginRelease) {
-				boolean defaultVersion = params?.useAsDefaultVersion ?: false
-				if (!defaultVersion) {
-					// check plugin count and set to true if there is only one
-					def count = PluginRelease.findAllByNameAndRepository(pluginName, repo)
-					if (count == 0) {
-						defaultVersion = true
-					}
-					// TODO reset default version property for other plugin releases
-					// or move property defaultVersion to class Plugin as relation
-				}
-
 				pluginRelease = new PluginRelease(name: pluginName, 
 					pluginVersion: pluginVersion,
 					grailsVersion: grailsVersion,
 					fileToken: fileToken, 
-					defaultVersion: defaultVersion,
 					plugin: plugin,
 					repository: repo)
+				
 				repo.addToReleases(pluginRelease)
+				
 				plugin.addToReleases(pluginRelease)
+				boolean defaultVersion = params?.useAsDefaultVersion ?: false
+				if (defaultVersion
+					|| plugin.defaultRelease == null) {
+					plugin.defaultRelease = pluginRelease
+				}
+				
 				if (repo.save()
 					&& plugin.save()) {
 					flash.message = "successfully uploaded plugin $pluginName (Version $pluginVersion)"

@@ -19,10 +19,10 @@
 							<g:sortableColumn property="author" title="Author" />
 							<g:sortableColumn property="description" title="Description" />
 							<%--
-							<g:sortableColumn property="defaultVersion" title="Default" />
 							<g:sortableColumn property="pluginVersion" title="Version" />
 							<g:sortableColumn property="grailsVersion" title="Grails Version" />
 							--%>
+							<th class="sortable">Default version</th>
 							<th class="sortable">Docs</th>
                         </tr>
                     </thead>
@@ -35,13 +35,13 @@
 							<td>${fieldValue(bean:pluginInstance, field:'author')}</td>
 							<td>${fieldValue(bean:pluginInstance, field:'description')}</td>
 							<%--
-							<td>${fieldValue(bean:pluginInstance, field:'defaultVersion')}</td>
 							<td>${fieldValue(bean:pluginInstance, field:'pluginVersion')}</td>
 							<td>${fieldValue(bean:pluginInstance, field:'grailsVersion')}</td>
 							--%>
 							<%--
                             <td><g:link action="docs" params="[plugin:fieldValue(bean:pluginInstance, field:'name'), version:fieldValue(bean:pluginInstance, field:'pluginVersion')]">Docs</g:link></td>--%>
-                            <td><g:link action="docs" params="[plugin:fieldValue(bean:pluginInstance, field:'name')]">Docs</g:link></td>
+							<td>${fieldValue(bean:pluginInstance?.defaultRelease, field:'pluginVersion')}</td>
+							<td><g:link action="docs" params="[plugin:fieldValue(bean:pluginInstance, field:'name')]">Docs</g:link></td>
                         </tr>
                     </g:each>
                     </tbody>

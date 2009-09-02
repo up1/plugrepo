@@ -6,6 +6,8 @@ class Plugin {
 	String author
 	String documentation
 	
+	PluginRelease defaultRelease
+	
 	static searchable = true
 	static hasMany = [releases:PluginRelease]
 	
@@ -14,6 +16,7 @@ class Plugin {
 		description(nullable: true)
 		author(nullable: true)
 		documentation(nullable: true)
+		defaultRelease(nullable: true)
     }
 
 	String toString() {
