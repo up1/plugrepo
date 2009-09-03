@@ -82,10 +82,19 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="defaultVersion">Default Version:</label>
+                                    <label for="documentationUrl">Documentation Url:</label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean:pluginReleaseInstance,field:'defaultVersion','errors')}">
-                                    <g:checkBox name="defaultVersion" value="${pluginReleaseInstance?.defaultVersion}" ></g:checkBox>
+                                <td valign="top" class="value ${hasErrors(bean:pluginReleaseInstance,field:'documentationUrl','errors')}">
+                                    <input type="text" id="documentationUrl" name="documentationUrl" value="${fieldValue(bean:pluginReleaseInstance,field:'documentationUrl')}"/>
+                                </td>
+                            </tr> 
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="downloadUrl">Download Url:</label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean:pluginReleaseInstance,field:'downloadUrl','errors')}">
+                                    <input type="text" id="downloadUrl" name="downloadUrl" value="${fieldValue(bean:pluginReleaseInstance,field:'downloadUrl')}"/>
                                 </td>
                             </tr> 
                         

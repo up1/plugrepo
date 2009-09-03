@@ -72,9 +72,16 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name">Default Version:</td>
+                            <td valign="top" class="name">Documentation Url:</td>
                             
-                            <td valign="top" class="value">${fieldValue(bean:pluginReleaseInstance, field:'defaultVersion')}</td>
+                            <td valign="top" class="value">${fieldValue(bean:pluginReleaseInstance, field:'documentationUrl')}</td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name">Download Url:</td>
+                            
+                            <td valign="top" class="value">${fieldValue(bean:pluginReleaseInstance, field:'downloadUrl')}</td>
                             
                         </tr>
                     
