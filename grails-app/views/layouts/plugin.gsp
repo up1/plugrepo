@@ -27,7 +27,7 @@
 			<span class="menuButton"><g:link class="create" controller="plugin" action="upload">Upload Plugin</g:link></span>
 			<span class="menuButton"><g:link class="create" controller="repository" action="scan">Update Plugins from Repository</g:link></span>
 			<span class="menuButton"><g:link class="create" controller="plugin" action="browse">Install Plugin from Repository</g:link></span>
-			<span class="menuButton"><g:link class="list" controller="plugin" action="list">List</g:link></span>
+			<span class="menuButton"><g:link class="list" controller="plugin" action="browse">List</g:link></span>
 			<span class="menuButton"><g:link class="list" controller="plugin" action="metadata">Plugin metadata</g:link></span>
 		</div>
 		<div class="centerbox">
