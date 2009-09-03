@@ -91,3 +91,16 @@ div.searchbox {
 	margin-right: auto;
 	vertical-align: top;
 }
+
+div.plugin {
+	margin: 5px;
+}
+
+
+div.plugin-heading {
+	font-weight: bold;
+}
+
+div.plugin-info {
+	margin-left: 10px;
+}
