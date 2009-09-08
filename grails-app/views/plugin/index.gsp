@@ -3,7 +3,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="layout" content="plugin" />
-        <title>Plugin List</title>
+        <title>Plugin Repository</title>
+		<g:javascript library="prototype" />
     </head>
     <body>
 		<div class="body">

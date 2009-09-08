@@ -33,14 +33,14 @@ class PluginController {
 	}
 
 	def metadata = {
+		// TODO get only meta data for specific repository
 		def plugins = Plugin.list();
-		def pluginTotal = Plugin.count();
 		
 		if (params.includeUpstream) {
 			// TODO include (cached) meta data from upstream repos
 		}
 		
-		[plugins:plugins, pluginTotal:pluginTotal]
+		[plugins:plugins]
 	}
 	
 	/**
@@ -64,6 +64,12 @@ class PluginController {
 	def docs = {
 		Plugin plugin
 		PluginRelease pluginRelease
+		
+		if (params.plugin == null) {
+			// plugin not found
+			response.sendError 404
+			return
+		}
 		
 		if (params.version) {
 			pluginRelease = PluginRelease.findByNameAndPluginVersion(params.plugin, params.version)
@@ -101,22 +107,40 @@ class PluginController {
 	
 	def download = {
 		Plugin plugin
+		PluginRelease pluginRelease
+		
+		if (params.plugin == null) {
+			// plugin not found
+			response.sendError 404
+			return
+		}
 		
 		if (params.version) {
-			plugin = Plugin.findByNameAndPluginVersion(params.plugin, params.version)
+			pluginRelease = PluginRelease.findByNameAndPluginVersion(params.plugin, params.version)
 		}
 		else {
-			plugin = Plugin.findByNameAndDefaultVersion(params.plugin, true)
+			plugin = Plugin.findByName(params.plugin, true)
+			if (plugin) {
+				pluginRelease = plugin.defaultRelease
+			}
+			
+			if (!pluginRelease) {
+				def results = PluginRelease.findAllByName(params.plugin, [max:1, sort:"pluginVersion", order:"desc"])
+				if (results) {
+					pluginRelease = results[0]
+				}
+			}
 		}
 		
-		if (plugin == null) {
+		if (pluginRelease == null) {
 			// plugin version not found
 			response.sendError 404
 			return
 		}
 
-		String fileToken = plugin.fileToken;
-		InputStream inp = storageService.readFile(fileToken)
+		String fileToken = pluginRelease.fileToken;
+		def repo = pluginRelease.repository
+		InputStream inp = storageService.readFile(repo, fileToken)
 		if (inp == null) {
 			// file not found
 			response.sendError(404)
@@ -137,6 +161,35 @@ class PluginController {
 					inp = null
 				}
 			}
+		}
+	}
+	
+	def releaseinfo = {
+		def version = params.version
+		render text:"relaseInfo ${version}"
+	}
+	
+	def info = {
+		Plugin plugin
+		
+		if (params.plugin == null) {
+			// plugin not found
+			response.sendError 404
+			return
+		}
+		
+		plugin = Plugin.findByName(params.plugin, true)
+		if (plugin == null) {
+			// plugin not found
+			response.sendError 404
+			return
+		}
+		
+		if (request.xhr) {
+			render template:'info', model:[pluginInstance:plugin, pluginReleases:plugin?.releases]
+		}
+		else {
+			[pluginInstance:plugin, pluginReleases:plugin?.releases]
 		}
 	}
 	

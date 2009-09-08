@@ -104,3 +104,11 @@ div.plugin-heading {
 div.plugin-info {
 	margin-left: 10px;
 }
+
+.plugin-release {
+	
+}
+
+.plugin-release-snapshot {
+	font-style:italic;
+}

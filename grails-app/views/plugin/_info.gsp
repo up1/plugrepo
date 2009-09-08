@@ -12,7 +12,7 @@
 			<g:set var="title" value="${isSnapshot ? snapshotHint : 'Release ' + rel?.pluginVersion }"/>
 			<g:remoteLink controller="plugin" action="releaseinfo" params="[plugin:pluginInstance, version:rel?.pluginVersion]" class="${cssClass}" title="$title" update="plugin-releaseinfo-${pluginInstance.name}">${rel?.pluginVersion}</g:remoteLink>
 		</plug:latestReleases>
-		<div class="plugin-info" id="plugin-releaseinfo-${pluginInstance.name}">
+		<div class="plugin-info" id="plugin-release-${pluginInstance.name}">
 		</div>
 	</div>
 </div>
