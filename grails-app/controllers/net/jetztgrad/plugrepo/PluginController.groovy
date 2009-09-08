@@ -88,7 +88,15 @@ class PluginController {
 			return
 		}
 		
-		[pluginRelease:pluginRelease]
+		if (pluginRelease.plugin?.documentation) {
+			[pluginRelease:pluginRelease]
+		}
+		else if (pluginRelease?.documentationUrl) {
+			redirect(url:pluginRelease?.documentationUrl)
+		}
+		else {
+			[pluginRelease:pluginRelease]
+		}
 	}
 	
 	def download = {
