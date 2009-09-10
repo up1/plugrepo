@@ -2,7 +2,9 @@ h1. Plugrepo
 
 h2. About
 
-Plugrepo is an offline Grails (and maybe Griffon) plugin repository. It can be used as a offline proxy for the grails.org repository as well as a repository for internal plugins, which are not ment to be published.
+Plugrepo is an offline Grails (and maybe Griffon) plugin repository. It can be used as an offline proxy for the grails.org repository as well as a repository for internal plugins, which are not ment to be published.
+
+Plugrepo is licensed under the "Apache License 2.0":http://www.apache.org/licenses/LICENSE-2.0
 
 h2. Features
 
