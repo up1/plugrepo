@@ -1,0 +1,30 @@
+h1. Plugrepo
+
+h2. About
+
+Plugrepo is an offline Grails (and maybe Griffon) plugin repository. It can be used as a offline proxy for the grails.org repository as well as a repository for internal plugins, which are not ment to be published.
+
+h2. Features
+
+* plugins can be uploaded to internal repository
+* manual installation of plugins from the upstream repository
+* browsing of plugins from internal and upstream repositories
+* automatic update of plugin meta data from upstream plugin repositories (e.g. central repository at grails.org)
+
+h2. Work in progress
+
+For the first release, a couple of things still need to be done:
+
+* tests!
+* manual installation of plugins from the upstream repository
+* automatic, transparent installation of plugins from the parent repository, when using @grails install-plugin@ (proxy mode)
+
+
+h2. Roadmap
+
+Other ideas:
+
+* blacklisting of plugins and plugin versions
+* check whether plugrepo can be used for Griffon
+* multiple internal and external (upstream) plugin repositories
+* security (allow upload/installation only for authenticated users, etc.)
